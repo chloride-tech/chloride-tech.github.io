@@ -1,2 +1,2 @@
-# chlorid-dev.github.io
+# chloride-dev.github.io
 done
