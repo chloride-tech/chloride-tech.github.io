@@ -1,14 +1,14 @@
-#preloader {		
-  background-color: #fff;		
-  height: 100%;		
-  position: fixed;		
-  width: 100%;		
-  z-index: 1100;		
-}		
+#preloader {
+    background-color: #fff; /* 保持背景为白色 */
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    z-index: 1100;
+    display: flex; /* 使用 flex 布局 */
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+}
 
-
-#preloader > img {		
-  left: 0%;		
-  position: absolute;		
-  top: 0%;		
+#preloader > img {
+    display: block; /* 确保没有额外的空间 */
 }
