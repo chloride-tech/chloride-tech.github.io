@@ -50,6 +50,25 @@
 </head>
 
 <body id="body">
+    <style>
+    #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.8); /* 可选：半透明背景 */
+    }
+
+    #preloader img {
+        display: block;
+    }
+</style>
+
+
 
     <!-- preloader -->
     <div id="preloader">
@@ -78,6 +97,8 @@
                 </a>
                 <!-- /logo -->
             </div>
+
+
 
             <!-- main nav -->
             <nav class="collapse navbar-collapse navbar-right" role="navigation">
@@ -472,7 +493,7 @@
                         data-wow-duration="500ms">
                         <div class="counters-item">
                             <i class="fa fa-clock-o fa-3x"></i>
-                            <strong data-to="114514">0</strong>
+                            <strong data-to="5">0</strong>
                             <!-- Set Your Number here. i,e. data-to="56" -->
                             <p>Hours of Work</p>
                         </div>
@@ -481,7 +502,7 @@
                         data-wow-delay="300ms">
                         <div class="counters-item">
                             <i class="fa fa-users fa-3x"></i>
-                            <strong data-to="4">0</strong>
+                            <strong data-to="20">0</strong>
                             <!-- Set Your Number here. i,e. data-to="56" -->
                             <p>Satisfied Clients</p>
                         </div>
@@ -490,7 +511,7 @@
                         data-wow-delay="600ms">
                         <div class="counters-item">
                             <i class="fa fa-rocket fa-3x"></i>
-                            <strong data-to="3">0</strong>
+                            <strong data-to="13">0</strong>
                             <!-- Set Your Number here. i,e. data-to="56" -->
                             <p> Projects Delivered </p>
                         </div>
@@ -499,7 +520,7 @@
                         data-wow-delay="900ms">
                         <div class="counters-item">
                             <i class="fa fa-trophy fa-3x"></i>
-                            <strong data-to="3">0</strong>
+                            <strong data-to="14">0</strong>
                             <!-- Set Your Number here. i,e. data-to="56" -->
                             <p>Awards Won</p>
                         </div>
