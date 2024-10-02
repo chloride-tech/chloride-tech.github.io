@@ -41,6 +41,7 @@ nav ul li a:hover {
     color: #b2dfdb;
 }
 
+/* 卡片和动画 */
 .container {
     background-color: #fff;
     padding: 2rem;
@@ -59,6 +60,7 @@ nav ul li a:hover {
     transform: translateY(0);
 }
 
+/* 输入框聚焦效果 */
 input {
     width: 100%;
     padding: 10px;
@@ -71,6 +73,7 @@ input {
 input:focus {
     border-color: #004d40;
     outline: none;
+    box-shadow: 0 0 8px rgba(0, 77, 64, 0.6);
 }
 
 button {
@@ -81,16 +84,50 @@ button {
     border-radius: 4px;
     cursor: pointer;
     width: 100%;
-    transition: background-color 0.3s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+    background-image: linear-gradient(45deg, #004d40, #00796b);
+    background-size: 200%;
+    transition: background-position 0.3s ease, transform 0.2s;
 }
 
 button:hover {
-    background-color: #004d40;
+    background-position: right center;
     transform: scale(1.05);
 }
 
 button:active {
     transform: scale(0.95);
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 1s ease;
+}
+
+button:active::before {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    transition: none;
+}
+
+/* 卡片悬停浮动效果 */
+.user-item {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .hidden {
