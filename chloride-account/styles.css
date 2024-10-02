@@ -10,6 +10,7 @@ body {
     align-items: center;
     margin: 0;
     flex-direction: column;
+    color: #ffffff; /* 确保整体文字颜色为白色，增强可见性 */
 }
 
 @keyframes gradientAnimation {
@@ -54,7 +55,7 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #fff;
+    color: #ffffff; /* 确保导航文字为白色 */
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s ease;
@@ -76,6 +77,7 @@ nav ul li a:hover {
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease;
+    color: #000000; /* 卡片内文字颜色为黑色，增强对比度 */
 }
 
 .container:hover {
@@ -97,6 +99,7 @@ input {
     border-radius: 8px;
     background-color: #f0f0f0;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    color: #000000; /* 输入框内文字颜色为黑色 */
 }
 
 input:focus {
@@ -108,7 +111,7 @@ input:focus {
 /* 按钮效果 */
 button {
     background-color: #00796b;
-    color: #fff;
+    color: #ffffff;
     padding: 12px 18px;
     border: none;
     border-radius: 4px;
@@ -155,12 +158,12 @@ button:active::after {
 
 /* 标题文字渐变效果 */
 h2 {
-    background: linear-gradient(45deg, #004d40, #009688);
+    background: linear-gradient(45deg, #004d40, #00acc1);
     background-clip: text;
     -webkit-background-clip: text;
-    color: transparent;
-    animation: textGradient 2s ease-in-out;
+    color: #ffffff; /* 标题文字改为白色以增强可见性 */
     font-size: 2rem;
+    animation: textGradient 2s ease-in-out;
 }
 
 @keyframes textGradient {
