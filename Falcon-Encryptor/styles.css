@@ -1,0 +1,251 @@
+:root {
+    --primary-color: #6c5ce7;
+    --secondary-color: #a8a5e6;
+    --background: #1a1a2e;
+    --neon-glow: #72ffff;
+    --text-color: #e2e2e2;
+    --error-color: #ff6b6b;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: var(--background);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+    cursor: none;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.custom-cursor {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--neon-glow);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    transition: transform 0.2s ease-out, opacity 0.2s;
+    mix-blend-mode: difference;
+    filter: blur(1px);
+    z-index: 9999;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.crypto-card {
+    background: rgba(26, 26, 46, 0.8);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 0 30px rgba(114, 255, 255, 0.15);
+    border: 1px solid rgba(114, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.crypto-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(114, 255, 255, 0.05) 0%, transparent 70%);
+    animation: rotate 60s linear infinite;
+    z-index: -1;
+}
+
+.title {
+    text-align: center;
+    font-size: 2.8rem;
+    margin-bottom: 2.5rem;
+    color: var(--neon-glow);
+    text-shadow: 0 0 15px rgba(114, 255, 255, 0.5);
+    letter-spacing: 2px;
+}
+
+.section {
+    margin-bottom: 2.5rem;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    animation: fadeIn 0.6s ease-out forwards;
+    border: 1px solid rgba(114, 255, 255, 0.05);
+}
+
+.section h2 {
+    color: var(--neon-glow);
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+textarea {
+    width: 100%;
+    height: 120px;
+    margin: 1rem 0;
+    padding: 1.2rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    resize: vertical;
+    font-size: 1rem;
+    transition: all 0.3s;
+    font-family: monospace;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--neon-glow);
+    box-shadow: 0 0 10px rgba(114, 255, 255, 0.3);
+}
+
+.neon-btn {
+    background: none;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 1rem 2.5rem;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    cursor: none;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin: 1rem 0;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.neon-btn:hover {
+    background: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 0 20px var(--primary-color);
+    transform: translateY(-3px);
+}
+
+.neon-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.neon-btn:hover::before {
+    left: 100%;
+}
+
+.result-box {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    word-wrap: break-word;
+    position: relative;
+    min-height: 60px;
+    border: 1px solid rgba(114, 255, 255, 0.1);
+    font-family: monospace;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.typing-effect::after {
+    content: "|";
+    animation: blink 1s infinite;
+    color: var(--neon-glow);
+}
+
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--neon-glow);
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: float 15s infinite linear;
+}
+
+.key-note {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-top: 0.5rem;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+@keyframes float {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    10% { opacity: 0.5; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-100vh) translateX(100px); opacity: 0; }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .crypto-card {
+        padding: 1.5rem;
+    }
+    
+    .section {
+        padding: 1.5rem;
+    }
+    
+    .title {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .neon-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+    }
+}

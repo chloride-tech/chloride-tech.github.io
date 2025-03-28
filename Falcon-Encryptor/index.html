@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="../img/icon.ico" media="(prefers-color-scheme: dark)">
+    <link rel="icon" href="../img/icon2.ico" media="(prefers-color-scheme: light)">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Falcon Encryptor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="crypto-card">
+            <h1 class="title">🦅 Falcon Encryptor</h1>
+            
+            <div class="section">
+                <h2>Generate Private Key</h2>
+                <button id="generateKeys" class="neon-btn">Generate Private Key</button>
+                <div id="privateKeyContainer" class="result-box"></div>
+                <p class="key-note">Note: Each IP can generate up to 3 keys per 24 hours</p>
+            </div>
+
+            <div class="section">
+                <h2>Encrypt Message</h2>
+                <textarea id="plainText" placeholder="Enter message to encrypt..."></textarea>
+                <button id="encryptBtn" class="neon-btn">Encrypt Message</button>
+                <div id="encryptedResult" class="result-box"></div>
+            </div>
+
+            <div class="section">
+                <h2>Decrypt Message</h2>
+                <textarea id="privateKeyInput" placeholder="Paste private key here..."></textarea>
+                <textarea id="encryptedData" placeholder="Paste encrypted message here..."></textarea>
+                <button id="decryptBtn" class="neon-btn">Decrypt Message</button>
+                <div id="decryptedResult" class="result-box typing-effect"></div>
+            </div>
+        </div>
+    </div>
+    <div class="custom-cursor"></div>
+    <div class="particles"></div>
+    <script src="script.js"></script>
+</body>
+</html>
