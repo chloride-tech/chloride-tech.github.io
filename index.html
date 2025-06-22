@@ -456,28 +456,65 @@
                 <!-- end contact address -->
 
                 <!-- contact form -->
-                <form action="https://formsubmit.co/wzhy233@outlook.com" method="POST" id="contact-form">
-    <div class="input-group name-email">
-        <div class="input-field">
-            <input type="text" name="name" id="name" placeholder="Name" class="form-control" required>
-        </div>
-        <div class="input-field">
-            <input type="email" name="email" id="email" placeholder="Email" class="form-control" required>
-        </div>
-    </div>
-    <div class="input-group">
-        <textarea name="message" id="message" placeholder="Message" class="form-control" required></textarea>
-    </div>
+<div class="col-lg-8 col-md-8 col-sm-7 col-xs-12 wow fadeInDown animated" data-wow-duration="500ms"
+     data-wow-delay="300ms">
+    <div class="contact-form">
+        <h3>Say hello!</h3>
+        <form id="contact-form">
+            <div class="input-group name-email">
+                <div class="input-field">
+                    <input type="text" name="name" id="name" placeholder="Name" class="form-control" required>
+                </div>
+                <div class="input-field">
+                    <input type="email" name="email" id="email" placeholder="Email" class="form-control" required>
+                </div>
+            </div>
+            <div class="input-group">
+                <textarea name="message" id="message" placeholder="Message" class="form-control" required></textarea>
+            </div>
+            <div class="input-group">
+                <input type="submit" id="form-submit" class="pull-right" value="Send message">
+            </div>
+        </form>
 
-    
-
-    
-    <input type="text" name="_honey" style="display:none">
-
-    <div class="input-group">
-        <input type="submit" id="form-submit" class="pull-right" value="Send message">
+        
+        <div id="response-message" style="margin-top: 20px; color: green; font-weight: bold;"></div>
     </div>
-</form>
+</div>
+
+
+<script>
+document.getElementById('contact-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const data = new FormData(form);
+    const formObject = Object.fromEntries(data.entries());
+
+    try {
+        const response = await fetch("https://formsubmit.co/ajax/youremail@example.com", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(formObject)
+        });
+
+        const result = await response.json();
+
+        if (result.success === "true" || result.success === true) {
+            const id = result.submissionID || result.uuid || "(No ID)";
+            document.getElementById("response-message").innerText = `Thank you for your feedback! Request ID: ${id}`;
+            form.reset();
+        } else {
+            document.getElementById("response-message").innerText = "The submission failed. Please try again later.";
+        }
+    } catch (error) {
+        document.getElementById("response-message").innerText = "Network error, unable to submit feedback.";
+    }
+});
+</script>
                 <!-- end contact form -->
 
                 <!-- footer social links -->
