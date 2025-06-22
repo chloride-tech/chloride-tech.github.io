@@ -457,9 +457,9 @@
 
                 <!-- contact form -->
 <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12 wow fadeInDown animated" data-wow-duration="500ms" data-wow-delay="300ms">
-  <div class="contact-form">
+  <div class="contact-form" style="position:relative;">
     <h3>Say hello!</h3>
-    <form id="contact-form" action="https://formsubmit.co/03c2853efd670d96a8b164d7f6ce182b" method="POST" target="hidden-iframe">
+    <form id="contact-form" action="https://formsubmit.co/你的token" method="POST" target="hidden-iframe">
       <div class="input-group name-email">
         <div class="input-field">
           <input type="text" name="name" id="name" placeholder="Name" class="form-control" required>
@@ -471,36 +471,52 @@
       <div class="input-group">
         <textarea name="message" id="message" placeholder="Message" class="form-control" required></textarea>
       </div>
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="about:blank">
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_next" value="about:blank" />
       <div class="input-group">
-        <input type="submit" id="form-submit" class="pull-right" value="Send message">
+        <input type="submit" id="form-submit" class="pull-right" value="Send message" />
       </div>
     </form>
 
     <iframe name="hidden-iframe" id="hidden-iframe" style="display:none;"></iframe>
-
     <div id="response-message" style="margin-top:20px; font-weight:bold;"></div>
   </div>
 </div>
 
 <script>
-  document.getElementById("contact-form").addEventListener("submit", function(e) {
+  const form = document.getElementById("contact-form");
+  const formContainer = document.querySelector(".contact-form");
+
+  form.addEventListener("submit", e => {
     e.preventDefault();
-    const form = this;
-    if (form.classList.contains("submitted")) return;
+
+    if(form.classList.contains("submitted")) return;
 
     const requestId = crypto.randomUUID();
-    const messageField = document.getElementById("message");
-    messageField.value = `#${requestId} ${messageField.value}`;
+    const msgField = document.getElementById("message");
+    msgField.value = `#${requestId} ${msgField.value}`;
 
     form.classList.add("submitted");
 
-    form.querySelectorAll("input, textarea, button").forEach(el => {
-      el.disabled = true;
-      el.style.backgroundColor = "#e0e0e0";
-      el.style.cursor = "not-allowed";
-    });
+    // 整体遮罩
+    const overlay = document.createElement("div");
+    overlay.style.position = "absolute";
+    overlay.style.top = 0;
+    overlay.style.left = 0;
+    overlay.style.right = 0;
+    overlay.style.bottom = 0;
+    overlay.style.backgroundColor = "rgba(255,255,255,0.6)";
+    overlay.style.zIndex = 10;
+    overlay.style.pointerEvents = "all";
+    formContainer.appendChild(overlay);
+
+    // 禁用输入
+    formContainer.querySelectorAll("input,textarea").forEach(el => el.disabled = true);
+
+    // 按钮禁用但样式不变
+    const btn = formContainer.querySelector("#form-submit");
+    btn.disabled = true;
+    btn.style.cursor = "default";
 
     form.submit();
 
@@ -510,18 +526,17 @@
         const html = iframe.contentDocument.body.innerHTML;
         const match = html.match(/Request ID:\s*\((.*?)\)/);
         const id = match ? match[1] : requestId;
-        const msgElem = document.getElementById("response-message");
-        msgElem.style.color = "green";
-        msgElem.textContent = `Request ID: ${id}`;
+        const res = document.getElementById("response-message");
+        res.style.color = "green";
+        res.textContent = `Request ID: ${id}`;
       } catch {
-        const msgElem = document.getElementById("response-message");
-        msgElem.style.color = "orange";
-        msgElem.textContent = "Sent, request ID unavailable";
+        const res = document.getElementById("response-message");
+        res.style.color = "orange";
+        res.textContent = "Sent, request ID unavailable";
       }
     };
   });
 </script>
-
 
 
                 <!-- end contact form -->
