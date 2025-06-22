@@ -457,31 +457,70 @@
 
                 <!-- contact form -->
 <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12 wow fadeInDown animated" data-wow-duration="500ms" data-wow-delay="300ms">
-    <div class="contact-form">
-        <h3>Say hello!</h3>
-        <form id="contact-form" action="https://formsubmit.co/03c2853efd670d96a8b164d7f6ce182b" method="POST" target="hidden-iframe">
-            <div class="input-group name-email">
-                <div class="input-field">
-                    <input type="text" name="name" id="name" placeholder="Name" class="form-control" required>
-                </div>
-                <div class="input-field">
-                    <input type="email" name="email" id="email" placeholder="Email" class="form-control" required>
-                </div>
-            </div>
-            <div class="input-group">
-                <textarea name="message" id="message" placeholder="Message" class="form-control" required></textarea>
-            </div>
-            <!-- 防止跳转页面 -->
-            <input type="hidden" name="_next" value="about:blank">
-            <div class="input-group">
-                <input type="submit" id="form-submit" class="pull-right" value="Send message">
-            </div>
-        </form>
+  <div class="contact-form">
+    <h3>Say hello!</h3>
+    <form id="contact-form" action="https://formsubmit.co/03c2853efd670d96a8b164d7f6ce182b" method="POST" target="hidden-iframe">
+      <div class="input-group name-email">
+        <div class="input-field">
+          <input type="text" name="name" id="name" placeholder="Name" class="form-control" required>
+        </div>
+        <div class="input-field">
+          <input type="email" name="email" id="email" placeholder="Email" class="form-control" required>
+        </div>
+      </div>
+      <div class="input-group">
+        <textarea name="message" id="message" placeholder="Message" class="form-control" required></textarea>
+      </div>
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="about:blank">
+      <div class="input-group">
+        <input type="submit" id="form-submit" class="pull-right" value="Send message">
+      </div>
+    </form>
 
-        <iframe name="hidden-iframe" id="hidden-iframe" style="display: none;"></iframe>
-        <div id="response-message" style="margin-top: 20px; color: green; font-weight: bold;"></div>
-    </div>
+    <iframe name="hidden-iframe" id="hidden-iframe" style="display:none;"></iframe>
+
+    <div id="response-message" style="margin-top:20px; font-weight:bold;"></div>
+  </div>
 </div>
+
+<script>
+  document.getElementById("contact-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const form = this;
+    if (form.classList.contains("submitted")) return;
+
+    const requestId = crypto.randomUUID();
+    const messageField = document.getElementById("message");
+    messageField.value = `#${requestId} ${messageField.value}`;
+
+    form.classList.add("submitted");
+
+    form.querySelectorAll("input, textarea, button").forEach(el => {
+      el.disabled = true;
+      el.style.backgroundColor = "#e0e0e0";
+      el.style.cursor = "not-allowed";
+    });
+
+    form.submit();
+
+    const iframe = document.getElementById("hidden-iframe");
+    iframe.onload = () => {
+      try {
+        const html = iframe.contentDocument.body.innerHTML;
+        const match = html.match(/Request ID:\s*\((.*?)\)/);
+        const id = match ? match[1] : requestId;
+        const msgElem = document.getElementById("response-message");
+        msgElem.style.color = "green";
+        msgElem.textContent = `Request ID: ${id}`;
+      } catch {
+        const msgElem = document.getElementById("response-message");
+        msgElem.style.color = "orange";
+        msgElem.textContent = "Sent, request ID unavailable";
+      }
+    };
+  });
+</script>
 
 
 
@@ -615,40 +654,7 @@
     <!-- Custom Functions -->
     <script src="js/custom.js"></script>
 
-    <script>
-document.getElementById("contact-form").addEventListener("submit", function (e) {
-    e.preventDefault(); // 阻止默认提交行为
-
-    const form = e.target;
-    const originalMessage = document.getElementById("message").value;
-
-    // 本地生成 Request ID（UUID）
-    const requestId = crypto.randomUUID();
-    const newMessage = `#${requestId} ${originalMessage}`;
-
-    // 更新 message 字段内容
-    document.getElementById("message").value = newMessage;
-
-    // 提交到隐藏 iframe
-    form.submit();
-
-    // 等待 iframe 返回结果
-    const iframe = document.getElementById("hidden-iframe");
-    iframe.onload = () => {
-        try {
-            const html = iframe.contentDocument.body.innerHTML;
-            const match = html.match(/Request ID:\s*\((.*?)\)/);
-            const returnedId = match ? match[1] : requestId;
-
-            document.getElementById("response-message").innerHTML =
-                `Request ID: <code>${returnedId}</code>`;
-        } catch (err) {
-            document.getElementById("response-message").innerHTML =
-                "Failed to get Request ID.";
-        }
-    };
-});
-</script>
+   
     <script>
         let stop;
         const img = new Image();
