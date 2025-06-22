@@ -644,22 +644,23 @@
                 }
             },
             submitHandler: function (form) {
+                // Disable inputs and submit button immediately to prevent re-submit
+                $('#contact-form :input').attr('disabled', true);
+
                 const data = $(form).serializeArray().reduce((obj, item) => {
                     obj[item.name] = item.value;
                     return obj;
                 }, {});
 
                 $.ajax({
-                    url: "https://formsubmit.co/ajax/wzhy233@outlook.com",
+                    url: "https://formsubmit.co/ajax/wzhy233@gmail.com",
                     method: "POST",
                     contentType: "application/json",
                     data: JSON.stringify(data),
                     dataType: "json",
                     success: function (response) {
                         const requestId = response.submissionID || response.uuid || "(no id)";
-                        $('#contact-form :input').attr('disabled', 'disabled');
                         $('#contact-form').fadeTo("slow", 0.15, function () {
-                            $(this).find(':input').attr('disabled', 'disabled');
                             $(this).find('label').css('cursor', 'default');
 
                             if ($('#success').length === 0) {
