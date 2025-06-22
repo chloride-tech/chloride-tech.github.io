@@ -481,7 +481,7 @@
         <iframe name="hidden-iframe" id="hidden-iframe" style="display: none;"></iframe>
         <div id="response-message" style="margin-top: 20px; color: green; font-weight: bold;"></div>
     </div>
-</div
+</div>
 
 
 
@@ -641,14 +641,14 @@ document.getElementById("contact-form").addEventListener("submit", function (e) 
             const returnedId = match ? match[1] : requestId;
 
             document.getElementById("response-message").innerHTML =
-                `✅ Message sent! Request ID: <code>${returnedId}</code>`;
+                `Request ID: <code>${returnedId}</code>`;
         } catch (err) {
             document.getElementById("response-message").innerHTML =
-                "✅ Message sent, but failed to get Request ID.";
+                "Failed to get Request ID.";
         }
     };
 });
-</script
+</script>
     <script>
         let stop;
         const img = new Image();
