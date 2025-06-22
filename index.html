@@ -483,38 +483,7 @@
 </div>
 
 
-<script>
-document.getElementById('contact-form').addEventListener('submit', async function (e) {
-    e.preventDefault();
 
-    const form = e.target;
-    const data = new FormData(form);
-    const formObject = Object.fromEntries(data.entries());
-
-    try {
-        const response = await fetch("https://formsubmit.co/ajax/wzhy233@outlook.com", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(formObject)
-        });
-
-        const result = await response.json();
-
-        if (result.success === "true" || result.success === true) {
-            const id = result.submissionID || result.uuid || "(No ID)";
-            document.getElementById("response-message").innerText = `Thank you for your feedback! Request ID: ${id}`;
-            form.reset();
-        } else {
-            document.getElementById("response-message").innerText = "The submission failed. Please try again later.";
-        }
-    } catch (error) {
-        document.getElementById("response-message").innerText = "Network error, unable to submit feedback.";
-    }
-});
-</script>
                 <!-- end contact form -->
 
                 <!-- footer social links -->
@@ -646,61 +615,82 @@ document.getElementById('contact-form').addEventListener('submit', async functio
     <script src="js/custom.js"></script>
 
     <script type="text/javascript">
-        $(function () {
-            /* ========================================================================= */
-            /*	Contact Form
-            /* ========================================================================= */
-
-            $('#contact-form').validate({
-                rules: {
-                    name: {
-                        required: true,
-                        minlength: 2
-                    },
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    message: {
-                        required: true
-                    }
+    $(function () {
+        $('#contact-form').validate({
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 2
                 },
-                messages: {
-                    name: {
-                        required: "come on, you have a name don't you?",
-                        minlength: "your name must consist of at least 2 characters"
-                    },
-                    email: {
-                        required: "no email, no message"
-                    },
-                    message: {
-                        required: "um...yea, you have to write something to send this form.",
-                        minlength: "thats all? really?"
-                    }
+                email: {
+                    required: true,
+                    email: true
                 },
-                submitHandler: function (form) {
-                    $(form).ajaxSubmit({
-                        type: "POST",
-                        data: $(form).serialize(),
-                        url: "process.php",
-                        success: function () {
-                            $('#contact-form :input').attr('disabled', 'disabled');
-                            $('#contact-form').fadeTo("slow", 0.15, function () {
-                                $(this).find(':input').attr('disabled', 'disabled');
-                                $(this).find('label').css('cursor', 'default');
-                                $('#success').fadeIn();
-                            });
-                        },
-                        error: function () {
-                            $('#contact-form').fadeTo("slow", 0.15, function () {
-                                $('#error').fadeIn();
-                            });
-                        }
-                    });
+                message: {
+                    required: true
                 }
-            });
+            },
+            messages: {
+                name: {
+                    required: "Come on, you have a name don't you?",
+                    minlength: "Your name must consist of at least 2 characters"
+                },
+                email: {
+                    required: "No email, no message"
+                },
+                message: {
+                    required: "You have to write something to send this form.",
+                    minlength: "That's all? Really?"
+                }
+            },
+            submitHandler: function (form) {
+                const data = $(form).serializeArray().reduce((obj, item) => {
+                    obj[item.name] = item.value;
+                    return obj;
+                }, {});
+
+                $.ajax({
+                    url: "https://formsubmit.co/ajax/wzhy233@outlook.com",
+                    method: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    success: function (response) {
+                        const requestId = response.submissionID || response.uuid || "(no id)";
+                        $('#contact-form :input').attr('disabled', 'disabled');
+                        $('#contact-form').fadeTo("slow", 0.15, function () {
+                            $(this).find(':input').attr('disabled', 'disabled');
+                            $(this).find('label').css('cursor', 'default');
+
+                            if ($('#success').length === 0) {
+                                $('#contact-form').after(
+                                    `<div id="success" style="margin-top: 20px; color: green; font-weight: bold;">
+                                        Thank you for your feedback! Request ID: ${requestId}
+                                     </div>`
+                                );
+                            } else {
+                                $('#success').html(`Thank you for your feedback! Request ID: ${requestId}`).fadeIn();
+                            }
+                        });
+                    },
+                    error: function () {
+                        $('#contact-form').fadeTo("slow", 0.15, function () {
+                            if ($('#error').length === 0) {
+                                $('#contact-form').after(
+                                    `<div id="error" style="margin-top: 20px; color: red; font-weight: bold;">
+                                        Submission failed. Please try again later.
+                                     </div>`
+                                );
+                            } else {
+                                $('#error').html("Submission failed. Please try again later.").fadeIn();
+                            }
+                        });
+                    }
+                });
+            }
         });
-    </script>
+    });
+</script>
     <script>
         let stop;
         const img = new Image();
