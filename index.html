@@ -456,11 +456,10 @@
                 <!-- end contact address -->
 
                 <!-- contact form -->
-<div class="col-lg-8 col-md-8 col-sm-7 col-xs-12 wow fadeInDown animated" data-wow-duration="500ms"
-     data-wow-delay="300ms">
+<div class="col-lg-8 col-md-8 col-sm-7 col-xs-12 wow fadeInDown animated" data-wow-duration="500ms" data-wow-delay="300ms">
     <div class="contact-form">
         <h3>Say hello!</h3>
-        <form id="contact-form">
+        <form id="contact-form" action="https://formsubmit.co/03c2853efd670d96a8b164d7f6ce182b" method="POST" target="hidden-iframe">
             <div class="input-group name-email">
                 <div class="input-field">
                     <input type="text" name="name" id="name" placeholder="Name" class="form-control" required>
@@ -472,15 +471,17 @@
             <div class="input-group">
                 <textarea name="message" id="message" placeholder="Message" class="form-control" required></textarea>
             </div>
+            <!-- 防止跳转页面 -->
+            <input type="hidden" name="_next" value="about:blank">
             <div class="input-group">
                 <input type="submit" id="form-submit" class="pull-right" value="Send message">
             </div>
         </form>
 
-        
+        <iframe name="hidden-iframe" id="hidden-iframe" style="display: none;"></iframe>
         <div id="response-message" style="margin-top: 20px; color: green; font-weight: bold;"></div>
     </div>
-</div>
+</div
 
 
 
@@ -614,84 +615,40 @@
     <!-- Custom Functions -->
     <script src="js/custom.js"></script>
 
-    <script type="text/javascript">
-    $(function () {
-        $('#contact-form').validate({
-            rules: {
-                name: {
-                    required: true,
-                    minlength: 2
-                },
-                email: {
-                    required: true,
-                    email: true
-                },
-                message: {
-                    required: true
-                }
-            },
-            messages: {
-                name: {
-                    required: "Come on, you have a name don't you?",
-                    minlength: "Your name must consist of at least 2 characters"
-                },
-                email: {
-                    required: "No email, no message"
-                },
-                message: {
-                    required: "You have to write something to send this form.",
-                    minlength: "That's all? Really?"
-                }
-            },
-            submitHandler: function (form) {
-                // Disable inputs and submit button immediately to prevent re-submit
-                $('#contact-form :input').attr('disabled', true);
+    <script>
+document.getElementById("contact-form").addEventListener("submit", function (e) {
+    e.preventDefault(); // 阻止默认提交行为
 
-                const data = $(form).serializeArray().reduce((obj, item) => {
-                    obj[item.name] = item.value;
-                    return obj;
-                }, {});
+    const form = e.target;
+    const originalMessage = document.getElementById("message").value;
 
-                $.ajax({
-                    url: "https://formsubmit.co/ajax/03c2853efd670d96a8b164d7f6ce182b",
-                    method: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify(data),
-                    dataType: "json",
-                    success: function (response) {
-                        const requestId = response.submissionID || response.uuid || "(no id)";
-                        $('#contact-form').fadeTo("slow", 0.15, function () {
-                            $(this).find('label').css('cursor', 'default');
+    // 本地生成 Request ID（UUID）
+    const requestId = crypto.randomUUID();
+    const newMessage = `#${requestId} ${originalMessage}`;
 
-                            if ($('#success').length === 0) {
-                                $('#contact-form').after(
-                                    `<div id="success" style="margin-top: 20px; color: green; font-weight: bold;">
-                                        Thank you for your feedback! Request ID: ${requestId}
-                                     </div>`
-                                );
-                            } else {
-                                $('#success').html(`Thank you for your feedback! Request ID: ${requestId}`).fadeIn();
-                            }
-                        });
-                    },
-                    error: function () {
-                        $('#contact-form').fadeTo("slow", 0.15, function () {
-                            if ($('#error').length === 0) {
-                                $('#contact-form').after(
-                                    `<div id="error" style="margin-top: 20px; color: red; font-weight: bold;">
-                                        Submission failed. Please try again later.
-                                     </div>`
-                                );
-                            } else {
-                                $('#error').html("Submission failed. Please try again later.").fadeIn();
-                            }
-                        });
-                    }
-                });
-            }
-        });
-    });
-</script>
+    // 更新 message 字段内容
+    document.getElementById("message").value = newMessage;
+
+    // 提交到隐藏 iframe
+    form.submit();
+
+    // 等待 iframe 返回结果
+    const iframe = document.getElementById("hidden-iframe");
+    iframe.onload = () => {
+        try {
+            const html = iframe.contentDocument.body.innerHTML;
+            const match = html.match(/Request ID:\s*\((.*?)\)/);
+            const returnedId = match ? match[1] : requestId;
+
+            document.getElementById("response-message").innerHTML =
+                `✅ Message sent! Request ID: <code>${returnedId}</code>`;
+        } catch (err) {
+            document.getElementById("response-message").innerHTML =
+                "✅ Message sent, but failed to get Request ID.";
+        }
+    };
+});
+</script
     <script>
         let stop;
         const img = new Image();
