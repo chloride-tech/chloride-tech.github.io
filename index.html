@@ -474,6 +474,7 @@
         <textarea name="message" id="message" placeholder="Message" class="form-control" required></textarea>
       </div>
 
+      <!-- FormSubmit 参数 -->
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_template" value="table">
       <input type="hidden" name="_autoresponse" value="">
@@ -499,6 +500,7 @@
   const formContainer = document.querySelector(".contact-form");
   const submitBtn = document.getElementById("form-submit");
   const responseBox = document.getElementById("response-message");
+  const iframe = document.getElementById("hidden-iframe");
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -506,14 +508,16 @@
 
     const requestId = generateShortId();
     document.getElementById("message").value = `#${requestId} ${document.getElementById("message").value}`;
-
     form.classList.add("submitted");
+
+    // 显示 Sending...
     submitBtn.disabled = true;
     submitBtn.value = "Sending...";
     submitBtn.style.backgroundColor = "#ccc";
     submitBtn.style.color = "#666";
     submitBtn.style.cursor = "not-allowed";
 
+    // 遮罩，不遮挡标题/提示
     const overlay = document.createElement("div");
     overlay.style.position = "absolute";
     overlay.style.top = "60px";
@@ -525,42 +529,55 @@
     overlay.style.pointerEvents = "all";
     formContainer.appendChild(overlay);
 
+    // 禁用输入
     form.querySelectorAll("input, textarea").forEach(el => {
       el.disabled = true;
       el.style.backgroundColor = "#e0e0e0";
       el.style.cursor = "not-allowed";
     });
 
-    const iframe = document.getElementById("hidden-iframe");
     form.submit();
 
-    // 成功：iframe 加载完成
+    // 真正判断成功（iframe 加载完成后延迟判断内容）
     iframe.onload = () => {
-      responseBox.style.color = "green";
-      responseBox.textContent = `Request ID: ${requestId}`;
-      submitBtn.value = "Already sent";
-      submitBtn.disabled = true;
-      submitBtn.style.backgroundColor = "";
-      submitBtn.style.color = "";
-      submitBtn.style.cursor = "default";
-    };
+      setTimeout(() => {
+        try {
+          const doc = iframe.contentDocument || iframe.contentWindow.document;
+          const text = doc.body?.textContent || "";
 
-    // 失败：iframe 加载失败时触发
-    iframe.onerror = () => {
-      responseBox.style.color = "red";
-      responseBox.textContent = "Submission failed. Please try again.";
-      form.classList.remove("submitted");
-      submitBtn.disabled = false;
-      submitBtn.value = "Send message";
-      submitBtn.style.backgroundColor = "";
-      submitBtn.style.color = "";
-      submitBtn.style.cursor = "";
-      form.querySelectorAll("input, textarea").forEach(el => {
-        el.disabled = false;
-        el.style.backgroundColor = "";
-        el.style.cursor = "";
-      });
-      overlay.remove();
+          if (/thank|success|已提交|已发送/i.test(text)) {
+            // ✅ 提交成功
+            responseBox.style.color = "green";
+            responseBox.textContent = `Request ID: ${requestId}`;
+            submitBtn.value = "Already sent";
+            submitBtn.disabled = true;
+            submitBtn.style.backgroundColor = "";
+            submitBtn.style.color = "";
+            submitBtn.style.cursor = "default";
+          } else {
+            throw new Error("Submission did not appear successful.");
+          }
+        } catch (err) {
+          // ❌ 提交失败，恢复所有状态
+          responseBox.style.color = "red";
+          responseBox.textContent = "Submission failed. Please try again.";
+          form.classList.remove("submitted");
+
+          submitBtn.disabled = false;
+          submitBtn.value = "Send message";
+          submitBtn.style.backgroundColor = "";
+          submitBtn.style.color = "";
+          submitBtn.style.cursor = "";
+
+          form.querySelectorAll("input, textarea").forEach(el => {
+            el.disabled = false;
+            el.style.backgroundColor = "";
+            el.style.cursor = "";
+          });
+
+          overlay.remove();
+        }
+      }, 500); // 延迟 0.5 秒防止闪判
     };
   });
 </script>
