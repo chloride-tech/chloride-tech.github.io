@@ -546,7 +546,7 @@
           const text = doc.body?.textContent || "";
 
           if (/thank|success|已提交|已发送/i.test(text)) {
-            // ✅ 提交成功
+            
             responseBox.style.color = "green";
             responseBox.textContent = `Request ID: ${requestId}`;
             submitBtn.value = "Already sent";
@@ -558,7 +558,7 @@
             throw new Error("Submission did not appear successful.");
           }
         } catch (err) {
-          // ❌ 提交失败，恢复所有状态
+          
           responseBox.style.color = "red";
           responseBox.textContent = "Submission failed. Please try again.";
           form.classList.remove("submitted");
@@ -577,7 +577,7 @@
 
           overlay.remove();
         }
-      }, 500); // 延迟 0.5 秒防止闪判
+      }, 500);
     };
   });
 </script>
@@ -664,7 +664,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <p class="copyright text-center">
-                        Copyright © 2025 <a target="_blank" href="http://chloride-tech.github.io/" title="Chloride Team">Chloride Technology</a> All rights reserved.
+                        Copyright © 2025 <a target="_blank" href="https://github.com/chloride-tech/" title="Chloride Team">Chloride Technology</a>, All rights reserved.
                     </p>
                 </div>
             </div>
@@ -700,11 +700,11 @@
     <script src="js/wow.min.js"></script>
     <script>
         var wow = new WOW({
-            boxClass: 'wow',      // animated element css class (default is wow)
-            animateClass: 'animated', // animation css class (default is animated)
-            offset: 120,          // distance to the element when triggering the animation (default is 0)
-            mobile: false,       // trigger animations on mobile devices (default is true)
-            live: true        // act on asynchronously loaded content (default is true)
+            boxClass: 'wow',      
+            animateClass: 'animated', 
+            offset: 120,      
+            mobile: false,      
+            live: true      
         }
         );
         wow.init();
