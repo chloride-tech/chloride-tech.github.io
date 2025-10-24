@@ -1,12 +1,13 @@
 {
-  "version": "0.5.7-RC3",
-  "timestamp": 1698123456,
-  "files": [
-    {
+  "latest_version": "0.5.7",
+  "files": {
+    "injection.zip": {
       "name": "injection.zip",
       "sha256": "d46d524c7b8e75bca648a94a9618e6c9db39025fdbf6ca602f36d6c435b02133",
       "url": "https://gitee.com/wzhy233/downloads/releases/download/g/injection.zip",
+      "version": "RC-3",
+      "timestamp": "2024-01-01T00:00:00Z",
       "size": 59560901
-    },
-  ]
+    }
+  }
 }
