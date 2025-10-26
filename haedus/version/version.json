@@ -3,11 +3,11 @@
   "files": {
     "injection.zip": {
       "name": "injection.zip",
-      "sha256": "e45551e85314bb8ec8fe25222bbf16adf5042314ee8a1011ef88495c92010fcb",
+      "sha256": "a491bfafe1dbb8f61446e2973c0af41c1369aeb71049172ebe536ab6758988ad",
       "url": "https://github.com/Haedus-Industries/Haedus-Release/releases/download/0.5.7-RC3/injection.zip",
       "version": "Release",
-      "timestamp": "2025-10-25T21:28:00Z",
-      "size": 113983287
+      "timestamp": "2025-10-26T23:56:00Z",
+      "size": 114241065
     }
   }
 }
